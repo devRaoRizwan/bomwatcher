@@ -119,7 +119,7 @@ input, select, button { font: inherit; color: inherit; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .page-loader { display: grid; place-items: center; min-height: 240px; color: var(--text-3); }
 .logo { display: inline-flex; align-items: center; gap: 9px; font-weight: 700; font-size: 16px; color: var(--text); text-decoration: none !important; }
-.logo-mark { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 7px; background: var(--accent); color: #fff; }
+.logo-mark { display: block; width: 28px; height: 28px; border-radius: 7px; }
 .card {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 20px; box-shadow: var(--shadow);
