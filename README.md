@@ -49,7 +49,16 @@ anyone can connect their GitHub account to.
 
 ## Built with
 
-React · FastAPI · PostgreSQL · GitHub Apps · GitHub Actions · CycloneDX
+| Area | Tools |
+|---|---|
+| **Frontend** | React 19, Vite, React Router |
+| **Backend** | Python, FastAPI, Pydantic, SQLAlchemy, Alembic |
+| **Database** | PostgreSQL (Supabase) |
+| **Auth & security** | JWT, Argon2 password hashing, rate limiting, signed webhooks |
+| **GitHub integration** | GitHub App, REST API, webhooks, GitHub Actions |
+| **Scanning** | Syft (dependencies), custom Python AI-model detector, CycloneDX 1.6 |
+| **Testing & quality** | Pytest, Ruff, Oxlint |
+| **Hosting** | Vercel (frontend), Render + Docker (API) |
 
 ## Pricing
 
