@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment files (set values in the Vercel dashboard instead)
+.env
+.env.*
+!.env.example
