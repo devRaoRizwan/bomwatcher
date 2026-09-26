@@ -1,0 +1,5 @@
+WORKFLOW_FILE = "bomwatcher-scan.yml"
+WORKFLOW_PATH = f".github/workflows/{WORKFLOW_FILE}"
+PR_BRANCH = "bomwatcher/add-scan-workflow"
+ARTIFACT_NAME = "bomwatcher-bom"
+BOM_FILENAME = "bom.cdx.json"

@@ -1,0 +1,32 @@
+# Render Blueprint for the BOMWatcher API → https://bomwatcher-api.onrender.com
+# Render dashboard → New → Blueprint → pick this repo. Values marked sync: false are
+# entered in the dashboard (they are secrets or depend on your accounts).
+services:
+  - type: web
+    name: bomwatcher-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: singapore   # keep the Supabase project in the same region
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: CORS_ORIGINS
+        value: https://bomwatcher.vercel.app
+      # Render terminates TLS and routes by hostname; its health checks don't use the public host.
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL          # Supabase → Project Settings → Database → connection string (session pooler)
+        sync: false
+      - key: GITHUB_APP_ID
+        sync: false
+      - key: GITHUB_APP_SLUG
+        sync: false
+      - key: GITHUB_PRIVATE_KEY    # paste the .pem contents
+        sync: false
+      - key: GITHUB_WEBHOOK_SECRET
+        sync: false

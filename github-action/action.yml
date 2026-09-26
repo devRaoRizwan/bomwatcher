@@ -1,0 +1,50 @@
+name: BOMWatcher AI-BOM scan
+description: Generate a CycloneDX 1.6 AI Bill of Materials (dependencies + AI models) and upload it as the bomwatcher-bom artifact.
+branding:
+  icon: shield
+  color: green
+
+inputs:
+  path:
+    description: Directory to scan
+    default: .
+  artifact-name:
+    description: Name of the uploaded artifact (BOMWatcher looks for bomwatcher-bom)
+    default: bomwatcher-bom
+
+outputs:
+  bom-path:
+    description: Path to the generated BOM
+    value: ${{ steps.merge.outputs.bom-path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install Syft
+      uses: anchore/sbom-action/download-syft@v0
+      id: syft
+
+    - name: Inventory dependencies
+      shell: bash
+      run: |
+        "${{ steps.syft.outputs.cmd }}" scan "dir:${{ inputs.path }}" \
+          --output "cyclonedx-json=${{ runner.temp }}/deps.cdx.json" --quiet
+
+    - name: Detect AI models and merge
+      id: merge
+      shell: bash
+      run: |
+        python3 "${{ github.action_path }}/scan.py" \
+          --path "${{ inputs.path }}" \
+          --deps "${{ runner.temp }}/deps.cdx.json" \
+          --name "${{ github.event.repository.name }}" \
+          --commit "${{ github.sha }}" \
+          --out "${{ runner.temp }}/bomwatcher/bom.cdx.json"
+        echo "bom-path=${{ runner.temp }}/bomwatcher/bom.cdx.json" >> "$GITHUB_OUTPUT"
+
+    - name: Upload BOM
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: ${{ runner.temp }}/bomwatcher/bom.cdx.json
+        retention-days: 30
